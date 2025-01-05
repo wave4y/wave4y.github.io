@@ -17,6 +17,7 @@
         overflow: hidden;
         font-family: sans-serif;
       }
+
       .window-container {
         flex: 1;
         display: flex;
@@ -25,6 +26,7 @@
         background: #000;
         position: relative;
       }
+
       .window-frame {
         position: relative;
         width: min(800px, 90vw);
@@ -34,6 +36,7 @@
         background: #222;
         overflow: visible;
       }
+
       .window-frame::before,
       .window-frame::after {
         content: "";
@@ -54,6 +57,7 @@
         right: 0;
         height: 4px;
       }
+
       .city-view {
         position: absolute;
         top: 0;
@@ -62,6 +66,7 @@
         bottom: 0;
         overflow: hidden;
       }
+
       #fireworksCanvas {
         position: absolute;
         top: 0;
@@ -69,6 +74,7 @@
         pointer-events: none;
         z-index: 999;
       }
+
       .hand-holder {
         position: absolute;
         bottom: 15px;
@@ -81,21 +87,26 @@
         gap: 100px;
         pointer-events: none;
       }
+
       .hand-holder svg {
         width: 200px;
         height: auto;
         transform: scale(0.8) translateY(50%);
       }
+
       .left-hand {
         transform: translateY(20px);
       }
+
       .window {
         transition: opacity 0.5s ease-in-out;
         transform-origin: center;
         vector-effect: non-scaling-stroke;
       }
+
       .window.light-on {
       }
+
       .buildings {
         will-change: transform;
         position: relative;
@@ -111,39 +122,49 @@
         width: 100vw;
         height: 100%;
       }
+
       .buildings-group:first-child {
         left: 0;
       }
+
       .buildings-group:last-child {
         left: 100vw;
       }
+
       .buildings.building-far {
         opacity: 0.6;
         filter: blur(1px);
       }
+
       .buildings.building-mid {
         opacity: 0.8;
         z-index: 2;
       }
+
       .buildings.building-near {
         opacity: 1;
         z-index: 3;
       }
+
       .buildings rect {
         transition: transform 0.5s;
       }
+
       .building-layer {
         position: absolute;
         width: 100%;
         height: 100%;
         overflow: hidden;
       }
+
       .building-layer.far {
         z-index: 1;
       }
+
       .building-layer.mid {
         z-index: 2;
       }
+
       .building-layer.near {
         z-index: 3;
       }
@@ -168,12 +189,16 @@
               height="100%"
               fill="url(#skyGradient)"
             />
+
             <g class="building-layer far"></g>
+
             <g class="building-layer mid"></g>
+
             <g class="building-layer near"></g>
           </svg>
         </div>
         <canvas id="fireworksCanvas"></canvas>
+
         <div class="hand-holder" id="handHolder">
           <svg class="right-hand" viewBox="0 0 200 200">
             <defs>
@@ -190,6 +215,7 @@
                 <stop offset="100%" stop-color="rgba(0,0,0,0.1)" />
               </linearGradient>
             </defs>
+
             <path
               d="
                 M 40,180 
@@ -205,6 +231,7 @@
                 Z"
               fill="url(#skinGradient)"
             />
+
             <path
               d="
                 M 30,160
@@ -218,6 +245,7 @@
               stroke-width="1"
               fill="none"
             />
+
             <path
               d="
                 M 20,142
@@ -229,6 +257,7 @@
                 Z"
               fill="url(#skinGradient)"
             />
+
             <path
               d="
                 M 40,140
@@ -240,6 +269,7 @@
                 Z"
               fill="url(#skinGradient)"
             />
+
             <path
               d="
                 M 60,138
@@ -251,6 +281,7 @@
                 Z"
               fill="url(#skinGradient)"
             />
+
             <path
               d="
                 M 80,138
@@ -262,6 +293,7 @@
                 Z"
               fill="url(#skinGradient)"
             />
+
             <path
               d="
                 M 100,142
@@ -274,6 +306,7 @@
                 Z"
               fill="url(#skinGradient)"
             />
+
             <path
               d="
                 M 115,132
@@ -283,6 +316,7 @@
               stroke-width="1.5"
               fill="none"
             />
+
             <path
               d="
                 M 128,132
@@ -292,6 +326,7 @@
               stroke-width="1"
               fill="none"
             />
+
             <path
               d="
                 M 22,125 C 25,123 28,123 32,125
@@ -304,6 +339,7 @@
               stroke-width="2"
               fill="none"
             />
+
             <path
               d="
                 M 20,130 Q 25,128 30,130
@@ -316,6 +352,7 @@
               stroke-width="1.5"
               fill="none"
             />
+
             <path
               d="
                 M 20,170
@@ -331,6 +368,11 @@
         </div>
       </div>
     </div>
+
+    <div class="mode-panel">
+      <button class="auto-mode-btn active">自动播放</button>
+    </div>
+
     <script>
       const canvas = document.getElementById("fireworksCanvas");
       const ctx = canvas.getContext("2d");
@@ -340,12 +382,14 @@
       function random(min, max) {
         return Math.random() * (max - min) + min;
       }
+
       function resizeCanvas() {
         canvas.width = windowFrame.clientWidth;
         canvas.height = windowFrame.clientHeight;
       }
       window.addEventListener("resize", resizeCanvas);
       resizeCanvas();
+
       Fireworks.init(canvas, ctx);
 
       const buildingLayers = {
@@ -397,6 +441,7 @@
           "g"
         );
         building.classList.add("building-with-windows");
+
         const width = random(layer.widthRange.min, layer.widthRange.max);
         let height;
 
@@ -411,6 +456,7 @@
         } else {
           height = random(layer.heightRange.min, layer.heightRange.max);
         }
+
         const windowFrame = document.querySelector(".window-frame");
         const frameHeight = windowFrame.clientHeight;
         const y = frameHeight - height;
@@ -455,6 +501,7 @@
               startY +
               row * wConfig.spacing +
               (wConfig.spacing - wConfig.size) / 2;
+
             windowRect.setAttribute("x", wx);
             windowRect.setAttribute("y", wy);
             windowRect.setAttribute("width", wConfig.size);
@@ -465,13 +512,16 @@
             );
             windowRect.style.opacity = "0.1";
             windowRect.classList.add("window");
+
             if (Math.random() < wConfig.lightProbability) {
               windowRect.classList.add("light-on");
               windowRect.style.opacity = "0.8";
             }
+
             windowGroup.appendChild(windowRect);
           }
         }
+
         building.appendChild(windowGroup);
         return { building, width };
       }
@@ -494,6 +544,7 @@
         mid: [],
         near: [],
       };
+
       function initializeBuildings() {
         Object.entries(buildingLayers).forEach(([type, layer]) => {
           const layerGroup = document.querySelector(`.building-layer.${type}`);
@@ -502,9 +553,13 @@
             "g"
           );
           buildingsGroup.classList.add("buildings", `building-${type}`);
+
           let currentX = -window.innerWidth;
           while (currentX < window.innerWidth * 1.5) {
-            const { building, width } = generateBuildingWithWindows(layer);
+            const { building, width } = generateBuildingWithWindows(
+              layer,
+              /* x= */ 0
+            );
 
             buildingsGroup.appendChild(building);
 
@@ -517,13 +572,16 @@
             const spacing = random(layer.spacing.min, layer.spacing.max);
             currentX += width + spacing;
           }
+
           layerGroup.appendChild(buildingsGroup);
         });
       }
+
       initializeBuildings();
 
       function setupWindowLights() {
         const windows = document.querySelectorAll(".window");
+
         function toggleRandomWindow() {
           const toggleCount = Math.floor(Math.random() * 20) + 20;
           for (let i = 0; i < toggleCount; i++) {
@@ -533,9 +591,11 @@
             randomWindow.style.opacity = isLightOn ? "0.8" : "0.1";
           }
         }
+
         function randomDelay() {
           return Math.random() * 800 + 200;
         }
+
         function scheduleNextToggle() {
           setTimeout(() => {
             toggleRandomWindow();
@@ -546,11 +606,13 @@
         let offsetFar = 0;
         let offsetMid = 0;
         let offsetNear = 0;
+
         const speedFar = 0.3;
         const speedMid = 0.5;
         const speedNear = 0.8;
 
         let farGroup, midGroup, nearGroup;
+
         function setupBuildingRefs() {
           farGroup = document.querySelector(".buildings.building-far");
           midGroup = document.querySelector(".buildings.building-mid");
@@ -565,11 +627,13 @@
           updateLayer("far", offsetFar, speedFar);
           updateLayer("mid", offsetMid, speedMid);
           updateLayer("near", offsetNear, speedNear);
+
           requestAnimationFrame(moveBuildings);
         }
         function updateLayer(layerName, offsetVal, layerSpeed) {
           const dataArr = buildingsData[layerName];
           if (!dataArr.length) return;
+
           const layerConfig = buildingLayers[layerName];
           const screenW = window.innerWidth;
 
@@ -591,6 +655,7 @@
               layerConfig.spacing.max
             );
             const newX = last.x + last.width + spacing;
+
             const { building, width } = generateBuildingWithWindows(
               layerConfig,
               0
@@ -623,8 +688,10 @@
             window.style.opacity = "0.8";
           }
         });
+
         scheduleNextToggle();
       }
+
       setupWindowLights();
     </script>
   </body>
